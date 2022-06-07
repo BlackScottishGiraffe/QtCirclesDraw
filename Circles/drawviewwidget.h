@@ -10,7 +10,7 @@ public:
     explicit DrawViewWidget(QWidget *parent = nullptr);
     void addCircle(qreal x, qreal y, qreal r);
     void redraw();
-    void removeLast();
+    bool removeLast();
 protected:
     void paintEvent(QPaintEvent *e) override;
 signals:

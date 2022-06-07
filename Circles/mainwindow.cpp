@@ -49,6 +49,9 @@ void MainWindow::on_DeleteButton_clicked()
     int j = ui->ListTable->rowCount()-1;
     ui->ListTable->removeRow(j);
     ui->ListTable->update();
-    ui->DrawView->removeLast();
+    if(!ui->DrawView->removeLast())
+    {
+        QMessageBox::warning(this, "Внимание", "Список пуст\n");
+    }
 }
 

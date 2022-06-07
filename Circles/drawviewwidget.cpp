@@ -79,11 +79,16 @@ void DrawViewWidget::redraw()
     update();
 }
 
-void DrawViewWidget::removeLast()
+bool DrawViewWidget::removeLast()
 {
     if(!Clist.empty())
+    {
         Clist.removeLast();
+        return true;
+    }
     else
-        maxX = 250, maxY = 250;
-    update();
+    {
+         redraw();
+         return false;
+    }
 }
