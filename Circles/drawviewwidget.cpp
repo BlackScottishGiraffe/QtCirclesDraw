@@ -19,44 +19,40 @@ void DrawViewWidget::paintEvent(QPaintEvent *e) {
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::black);
-  painter.setFont(QFont("Arial",30));
+  painter.setFont(QFont("Arial",5));
+
+  painter.resetTransform();
+  painter.translate(width()/2, height()/2);
+
+  if(maxX > 250 || maxY > 250)
+  {
+      qreal scale = 1;
+      if(maxX >= maxY)
+          scale = 1 - ((maxX / 250) * 0.1);
+      else
+          scale = 1 - ((maxY / 250) * 0.1);
+
+      painter.scale(scale,scale);
+  }
+
+  if(!Clist.empty())
+  {
+
+      Q_FOREACH(circle c, Clist)
+      {
+          painter.drawPoint(c.x, c.y);
+          painter.drawEllipse(c.x - (c.r), c.y - (c.r), c.r*2, c.r*2);
+          painter.drawText(c.x,10,QString::number(c.x));
+          painter.drawText(-15,c.y,QString::number(-1*c.y));
+      }
+  }
+
+
+  painter.resetTransform();
 
   painter.drawLine( width()/2, 0, width()/2, height() );
   painter.drawLine( 0, height()/2, width(), height()/2);
 
-  painter.translate(width()/2, height()/2);
-
-/*
-  if(maxX > width()/2 || maxY > height()/2)
-  {
-      float scaling = 1;
-      int scaler = 1;
-
-      if(maxX > maxY)
-      {
-        scaling = maxX;
-        scaler = width() / 2;
-      }
-      else
-      {
-        scaling = maxY;
-        scaler = height() / 2;
-      }
-
-      int diff = scaling / scaler;
-      painter.scale(1 - (diff * 0.1), 1-(diff * 0.1));
-
-  }
-*/
-
-  if(!Clist.empty())
-  {
-      //painter.drawRects(circles);
-      Q_FOREACH(circle c, Clist)
-      {
-          painter.drawEllipse(c.x - (c.r), c.y - (c.r), c.r*2, c.r*2);
-      }
-  }
 
 }
 
@@ -83,11 +79,16 @@ void DrawViewWidget::redraw()
     update();
 }
 
-void DrawViewWidget::removeLast()
+bool DrawViewWidget::removeLast()
 {
     if(!Clist.empty())
+    {
         Clist.removeLast();
+        return true;
+    }
     else
-        maxX = 250, maxY = 250;
-    update();
+    {
+         redraw();
+         return false;
+    }
 }
