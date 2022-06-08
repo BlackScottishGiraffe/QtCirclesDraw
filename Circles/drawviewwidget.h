@@ -3,14 +3,20 @@
 
 #include <QWidget>
 
+struct circle{
+    int x = 0,y = 0,r = 0;
+};
+
 class DrawViewWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit DrawViewWidget(QWidget *parent = nullptr);
-    void addCircle(qreal x, qreal y, qreal r);
-    void redraw();
+    bool addCircle(int x, int y, int r);
     bool removeLast();
+    circle returnLast();
+    int returnMaxX();
+    int returnMaxY();
 protected:
     void paintEvent(QPaintEvent *e) override;
 signals:

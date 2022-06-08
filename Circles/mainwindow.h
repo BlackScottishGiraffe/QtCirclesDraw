@@ -14,13 +14,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     void drawCircles();
-
     void rebuildList();
     ~MainWindow();
 
 private slots:
     void on_AddButton_clicked();
-
     void on_DeleteButton_clicked();
 
 private:

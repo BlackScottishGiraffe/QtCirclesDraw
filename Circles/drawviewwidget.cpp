@@ -1,9 +1,6 @@
 #include <QPainter>
 #include "drawviewwidget.h"
 
-struct circle{
-    int x = 0,y = 0,r = 0;
-};
 QList<circle> Clist;
 int maxX = 250, maxY = 250;
 
@@ -56,12 +53,14 @@ void DrawViewWidget::paintEvent(QPaintEvent *e) {
 
 }
 
-void DrawViewWidget::addCircle(qreal x, qreal y, qreal r)
+bool DrawViewWidget::addCircle(int x, int y, int r)
 {
     circle c;
     c.x = x;
     c.y = -y;
     c.r = r;
+    if(c.r<=0)
+        return false;
     Clist.append(c);
     qreal maxx = abs(x) + r;
     qreal maxy = abs(y) + r;
@@ -70,25 +69,46 @@ void DrawViewWidget::addCircle(qreal x, qreal y, qreal r)
     if(maxy > maxY)
         maxY = maxy;
     update();
-}
-
-void DrawViewWidget::redraw()
-{
-    Clist.clear();
-    maxX = 250, maxY = 250;
-    update();
+    return true;
 }
 
 bool DrawViewWidget::removeLast()
 {
+    bool b = false;
     if(!Clist.empty())
     {
         Clist.removeLast();
-        return true;
+        b = true;
     }
     else
     {
-         redraw();
-         return false;
+         b = false;
     }
+    maxX = 250, maxY = 250;
+    update();
+    return b;
+}
+
+circle DrawViewWidget::returnLast()
+{
+    if (!Clist.empty())
+        return Clist.last();
+    else
+    {
+        circle c;
+        c.x = 0;
+        c.y = 0;
+        c.r = 1;
+        return c;
+    }
+}
+
+int DrawViewWidget::returnMaxX()
+{
+    return maxX;
+}
+
+int DrawViewWidget::returnMaxY()
+{
+    return maxY;
 }

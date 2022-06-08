@@ -3,11 +3,6 @@
 #include "QMessageBox"
 #include "drawviewwidget.h"
 
-struct circle{
-    int x = 0,y = 0,r = 0;
-};
-
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -26,16 +21,14 @@ void MainWindow::on_AddButton_clicked()
      c.x = ui->XLine->value();
      c.y = ui->YLine->value();
      c.r = ui->RLine->value();
-     if(c.r > 0)
+     if(ui->DrawView->addCircle(c.x, c.y, c.r))
      {
-         //Clist.append(c);
          int j = ui->ListTable->rowCount();
          ui->ListTable->insertRow(j);
          ui->ListTable->setItem(j,0,new QTableWidgetItem(QString::number(c.x)));
          ui->ListTable->setItem(j,1,new QTableWidgetItem(QString::number(c.y)));
          ui->ListTable->setItem(j,2,new QTableWidgetItem(QString::number(c.r)));
 
-         ui->DrawView->addCircle(c.x, c.y, c.r);
      }
      else
      {
