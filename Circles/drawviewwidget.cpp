@@ -72,23 +72,19 @@ void DrawViewWidget::addCircle(qreal x, qreal y, qreal r)
     update();
 }
 
-void DrawViewWidget::redraw()
-{
-    Clist.clear();
-    maxX = 250, maxY = 250;
-    update();
-}
-
 bool DrawViewWidget::removeLast()
 {
+    bool b = false;
     if(!Clist.empty())
     {
         Clist.removeLast();
-        return true;
+        b = true;
     }
     else
     {
-         redraw();
-         return false;
+         b = false;
     }
+    maxX = 250, maxY = 250;
+    update();
+    return b;
 }
