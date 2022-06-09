@@ -11,6 +11,11 @@ public:
     void addCircle(qreal x, qreal y, qreal r);
     void redraw();
     bool removeLast();
+<<<<<<< Updated upstream
+=======
+    circle returnLast();
+    int twoLastIntersect();
+>>>>>>> Stashed changes
 protected:
     void paintEvent(QPaintEvent *e) override;
 signals:

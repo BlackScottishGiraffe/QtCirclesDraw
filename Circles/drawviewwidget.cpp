@@ -20,21 +20,8 @@ void DrawViewWidget::paintEvent(QPaintEvent *e) {
   painter.setRenderHint(QPainter::Antialiasing);
   painter.setPen(Qt::black);
   painter.setFont(QFont("Arial",5));
-
   painter.resetTransform();
   painter.translate(width()/2, height()/2);
-
-  if(maxX > 250 || maxY > 250)
-  {
-      qreal scale = 1;
-      if(maxX >= maxY)
-          scale = 1 - ((maxX / 250) * 0.1);
-      else
-          scale = 1 - ((maxY / 250) * 0.1);
-
-      painter.scale(scale,scale);
-  }
-
   if(!Clist.empty())
   {
 
@@ -46,14 +33,9 @@ void DrawViewWidget::paintEvent(QPaintEvent *e) {
           painter.drawText(-15,c.y,QString::number(-1*c.y));
       }
   }
-
-
   painter.resetTransform();
-
   painter.drawLine( width()/2, 0, width()/2, height() );
   painter.drawLine( 0, height()/2, width(), height()/2);
-
-
 }
 
 void DrawViewWidget::addCircle(qreal x, qreal y, qreal r)
@@ -88,3 +70,43 @@ bool DrawViewWidget::removeLast()
     update();
     return b;
 }
+<<<<<<< Updated upstream
+=======
+
+circle DrawViewWidget::returnLast()
+{
+    if (!Clist.empty())
+        return Clist.last();
+    else
+    {
+        circle c;
+        c.x = 0;
+        c.y = 0;
+        c.r = 1;
+        return c;
+    }
+}
+
+int DrawViewWidget::twoLastIntersect()
+{
+    circle a = Clist.last();
+    Clist.removeLast();
+    circle b = Clist.last();
+    Clist.append(a);
+    int dist = sqrt(pow((b.x-a.x),2)+(pow((b.y-a.y),2)));
+    if(a.x == b.x && a.y == b.y && a.r == b.r)
+    {
+        return 3;
+    }
+    if (dist == a.r+b.r)
+    {
+        return 1;
+    }
+    if (dist < a.r+b.r)
+    {
+        return 2;
+    }
+    return 0;
+
+}
+>>>>>>> Stashed changes

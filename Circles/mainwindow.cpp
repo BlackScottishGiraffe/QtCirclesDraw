@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //DrawViewWidget dvw(this);
 }
 
 MainWindow::~MainWindow()
@@ -46,12 +45,36 @@ void MainWindow::on_AddButton_clicked()
 
 void MainWindow::on_DeleteButton_clicked()
 {
-    int j = ui->ListTable->rowCount()-1;
-    ui->ListTable->removeRow(j);
-    ui->ListTable->update();
     if(!ui->DrawView->removeLast())
     {
         QMessageBox::warning(this, "Внимание", "Список пуст\n");
     }
+    else
+    {
+        int j = ui->ListTable->rowCount()-1;
+        ui->ListTable->removeRow(j);
+        ui->ListTable->update();
+    }
 }
 
+
+void MainWindow::on_checkInter_clicked()
+{
+    int inter = ui->DrawView->twoLastIntersect();
+    switch (inter)
+    {
+        case 0:
+        QMessageBox::warning(this, "Внимание", "Две последние добавленные окружности не пересекаются\n");
+        break;
+    case 1:
+        QMessageBox::warning(this, "Внимание", "Две последние добавленные окружности имеют одну точку пересечения\n");
+        break;
+    case 2:
+        QMessageBox::warning(this, "Внимание", "Две последние добавленные окружности имеют две точки пересечения\n");
+        break;
+    case 3:
+        QMessageBox::warning(this, "Внимание", "Две последние добавленные окружности расположены друг в друге\n");
+        break;
+
+    }
+}
